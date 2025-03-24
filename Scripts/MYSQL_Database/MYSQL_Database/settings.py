@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,10 +81,10 @@ WSGI_APPLICATION = 'MYSQL_Database.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django2',
-        'USER' : 'root',
-        'PASSWORD' : 'Ranjitha@30',
-        'HOST' : '127.0.0.1',
+        'NAME': os.getenv('django2'),
+        'USER' : os.getenv('root'),
+        'PASSWORD' : os.getenv('Ranjitha@30'),
+        'HOST' : os.getenv('127.0.0.1'),
         'PORT' : '3306',
     }
 }
@@ -124,9 +125,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR /"static",
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
-    BASE_DIR /"static",
+    os.path.join(BASE_DIR, 'static')  # Your local static files folder
 ]
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK='bootstrap5'
